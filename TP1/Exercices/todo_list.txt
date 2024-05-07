@@ -1,0 +1,12 @@
+[
+  {
+    "tache": "A faire",
+    "terminee": false,
+    "instructions": "Ajouter un système de d'authentification de personne pour que chaques utilisateurs possede une Todo List"
+  },
+  {
+    "tache": "En cours",
+    "terminee": false,
+    "instructions": "Modifier l'interface pour le rendre plus facile à utiliser (modifier sens relancer node, ne pas quitter la Todo List automatiquement)"
+  }
+]
