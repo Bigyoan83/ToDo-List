@@ -47,7 +47,7 @@ function ajouterElementToDoList(todoList, tache, instructions) {                
 
 
 function modifierInstructionsTache(todoList, index, nouvellesInstructions) {                  // Fonction pour modifier les instructions d'une tâche spécifique 
-  if (index >= 0 && index < todoList.length) {                                               // Vérifie si l'index est valide   
+  if (index >= 0 && index < todoList.length) {                                                // Vérifie si l'index est valide   
     todoList[index].instructions = nouvellesInstructions;                                     // Modifie les instructions de la tâche à l'index spécifi    
     console.log("Les instructions de la tâche ont été modifiées avec succès.");               // Affiche un message indiquant que les instructions ont été modifiées  
   } else {    
@@ -57,60 +57,64 @@ function modifierInstructionsTache(todoList, index, nouvellesInstructions) {    
 
 function supprimerElementToDoList(todoList, index) {
   if (index >= 0 && index < todoList.length) {                                               // Vérifie si l'index est valide   
-    todoList.splice(index, 1);                                                                // Splice pour supprimer l'élément de l'index
-    console.log("L'élément est supprimé avec succes");               // Affiche un message indiquant que les instructions ont été modifiées  
+    todoList.splice(index, 1);                                                               // Splice pour supprimer l'élément de l'index
+    console.log("L'élément est supprimé avec succes");                                       // Affiche un message indiquant que les instructions ont été modifiées  
   } else {    
-    console.log("Index invalide. Veuillez entrer un index valide.");                          // Affiche un message d'erreur si l'index est invalide
+    console.log("Index invalide. Veuillez entrer un index valide.");                         // Affiche un message d'erreur si l'index est invalide
   }
 }
 
-let todoList = chargerToDoList();                                                             // Chargement initial de la liste ToDo depuis le fichier
+
+let todoList = chargerToDoList();                                                            // Chargement initial de la liste ToDo depuis le fichier
 
 
-
-rl.question('Voulez-vous ajouter, consulter, modifier ou supprimer des éléments de votre ToDo list ? (ajouter/consulter/modifier/supprimer) : ', function(answer) { // Question posée à l'utilisateur pour choisir une action à effectuer sur la liste ToDo
+function afficherList() {
+  rl.question('Que voulez-vous faire : 1: Ajouter, 2: Consulter, 3: Modifier, 4: Supprimer, 5: Quitter) : ', function(add) { // Question posée à l'utilisateur pour choisir une action à effectuer sur la liste ToDo
   
-  if (answer.toLowerCase() === 'ajouter') {                                                   // Si l'utilisateur choisit d'ajouter une tâche    
+  if (add.toLowerCase() === '1') {                                                                       // Si l'utilisateur choisit d'ajouter une tâche il tape 1    
     rl.question('Entrez l\'élément que vous souhaitez ajouter à votre ToDo list : ', function(tache) {  // Demande à l'utilisateur de saisir la tâche et les instructions
       rl.question('Entrez les instructions pour cette tâche : ', function(instructions) {       
         ajouterElementToDoList(todoList, tache, instructions);                                // Ajoute la nouvelle tâche avec les instructions saisies       
-        enregistrerToDoList(todoList);                                                        // Enregistre la liste ToDo mise à jour dans le fichier    
-        rl.close();                                                                           // Ferme l'interface readline
+        enregistrerToDoList(todoList);                                                        // Enregistre la liste ToDo mise à jour dans le fichier
+        afficherList();                                                                        // Ferme l'interface readline
       });
     });
 
 
-  } else if (answer.toLowerCase() === 'consulter') {                                             // Si l'utilisateur choisit de consulter la liste ToDo
-    afficherToDoList(todoList);                                                                   // Affiche la liste ToDo dans le terminal        
+  } else if (add.toLowerCase() === '2') {                                             // Si l'utilisateur choisit de consulter la liste ToDo tâche il tape 2
+    afficherToDoList(todoList);
+    afficherList();                                                        
+                                                                       
                                                                                                                                                            
-  } else if (answer.toLowerCase() === 'modifier') {  
-    rl.question('Entrez l\'index de la tâche que vous souhaitez modifier : ', function(indexStr) {   // Si l'utilisateur choisit de modifier une tâche
-                                                                                                       // Demande à l'utilisateur de saisir l'index de la tâche à modifier 
-      const index = parseInt(indexStr) - 1;                                                             // Convertit l'index saisi en nombre entier
+  } else if (add.toLowerCase() === '3') {                                                                 // Si l'utilisateur choisit de modifier une tâche il tape 3
+    rl.question('Entrez l\'index de la tâche que vous souhaitez modifier : ', function(indexSaisi) {      // Demande à l'utilisateur de saisir l'index de la tâche à modifier                                                                              
+      const index = parseInt(indexSaisi) - 1;                                                             // Convertit l'index saisi en nombre entier
       rl.question('Entrez les nouvelles instructions pour cette tâche : ', function(nouvellesInstructions) {  // Demande à l'utilisateur de saisir les nouvelles instructions pour la tâche        
         modifierInstructionsTache(todoList, index, nouvellesInstructions);                                  // Modifie les instructions de la tâche à l'index spécifié
-        enregistrerToDoList(todoList);                                                                      // Enregistre la liste ToDo mise à jour dans le fichier
-        rl.close();                                                                                     // Ferme l'interface readline
+        enregistrerToDoList(todoList);                                                                      // Enregistre la liste ToDo mise à jour dans le fichier 
+        afficherList();                                                                                     // Ferme l'interface readline
       });
     });
-  } else if (answer.toLowerCase() === 'supprimer') {
-    rl.question('Entrez l\'intex de la tâche que vous souhaitez supprimer :', function(indexStr) {
-      const index = parseInt(indexStr) - 1; 
+  } else if (add.toLowerCase() === '4') {
+    rl.question('Entrez l\'intex de la tâche que vous souhaitez supprimer :', function(indexSaisi) {
+      const index = parseInt(indexSaisi) - 1; 
       supprimerElementToDoList(todoList, index);
       enregistrerToDoList(todoList);
-      rl.close();
+      afficherList();
     })
-  } else {
-    console.log('Commande non reconnue.');                                                                // Si la commande n'est pas reconnue
-                                                                                                            // Affiche un message d'erreur
-    rl.close();                                                                                           // Ferme l'interface readline
+  } else if (add.toLowerCase() === '5') {
+    rl.close();
+
+  } else {                                                                                              // Si la commande n'est pas reconnue
+    console.log('Commande non reconnue.');                                                              // Affiche un message d'erreur                                                                                                      
+    afficherList();                                                                                           // Ferme l'interface readline
   }
 });
+}
 
+afficherList();
 
-
-
-rl.on('close', function() {                                                                               // Gestion de l'événement lorsque l'utilisateur ferme l'interface readline
+ rl.on('close', function() {                                                                             // Gestion de l'événement lorsque l'utilisateur ferme l'interface readline                                                             
   console.log('Au revoir !');                                                                             // Affiche un message de sortie
   process.exit(0);                                                                                        // Termine le processus Node.js
 });
